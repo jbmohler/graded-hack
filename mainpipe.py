@@ -1,7 +1,7 @@
 import conducto as co
+import sympy
 
 def factor(n):
-    import sympy
     print(sympy.factorint(int(n)))
 
 
