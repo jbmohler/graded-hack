@@ -1,0 +1,6 @@
+[pr]
+command = python pipeline.py pr {*}
+reqs_packages = ["git"]
+
+[merge]
+command = python pipeline.py push {*}
