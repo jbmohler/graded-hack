@@ -15,7 +15,7 @@ def pr(branch) -> co.Parallel:
     with co.Parallel(image=image) as root:
         co.Exec(f"echo {branch}", name="print branch")
         co.Exec("pwd", name="print working directory")
-        co.Exec("ls -la", name="list files")
+        co.Exec("sleep 15; ls -la", name="list files")
     return root
 
 
