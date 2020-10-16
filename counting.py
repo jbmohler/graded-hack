@@ -1,3 +1,6 @@
+import collections
+
+
 class Element:
     def __init__(self):
         raise RuntimeError("construct elements by multiplying primes")
@@ -83,13 +86,41 @@ print(p3a*p2a*p3b)
 """
 
 
-def place_grade(grade, required, placed):
+def place_grade(grade, required, primes):
     placements = 2 ** grade
+    base = placements
+
+    # compute required from primes
+    def _count(pp, menu, gmin, gmax):
+        if len(menu) == 0:
+            return
+        p = menu[0]
+        for _ in range(gmax // p.grade):
+            yield from _count(pp, menu[1:], gmin, gmax)
+            pp *= p
+            if gmin <= pp.grade < gmax:
+                yield pp
+
+    requirements = collections.defaultdict(lambda: [])
+    for elt in _count(Element.one(), primes, placements, 2 * placements):
+        print(elt, elt.grade)
+        requirements[elt.grade].append(elt)
+
+    if grade == 3:
+        return
 
     # iterate through all the integer tuples of length `placement` with a sum
     # of exactly `placement`
 
+    prodcounts = [
+        len(requirements[grade]) for grade in range(placements, 2 * placements)
+    ]
+    if sum(prodcounts) > placements:
+        return
+
     def _enum(index, counts, remaining):
+        nonlocal prodcounts
+
         if remaining == 0:
             counts[index : len(counts)] = [0] * (len(counts) - index)
             yield counts
@@ -103,13 +134,16 @@ def place_grade(grade, required, placed):
 
     counts = [0] * placements
 
-    for xx in _enum(0, counts, placements):
-
-        # compute required
-
+    for xx in _enum(0, counts, placements - sum(prodcounts)):
         print(xx)
+        _p = primes.copy()
+        for offset, count in enumerate(xx):
+            for i in range(count):
+                _p.append(pp(base + offset, chr(97 + i)))
+        if grade < 3:
+            place_grade(grade + 1, None, _p)
 
 
 if __name__ == "__main__":
     for x in range(1, 2):
-        place_grade(x, None, None)
+        place_grade(x, {}, [])
