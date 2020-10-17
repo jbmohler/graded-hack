@@ -1,5 +1,6 @@
-# graded-hack
-this is mainly a test repo, but it is a bit of mathematics too
+# introduction
+
+Some thoughts on $\pi(2^n)-\pi(2^(n-1))$ where $\pi$ is the prime counting function.
 
 # graded rings
 
@@ -21,7 +22,7 @@ polynomials of a given degree.
 
 # '2-exponential banded gradings'
 
-This exploratory code jumps off from two particular graded rings -- the
+This exploratory code attempts to generalize from two particular graded rings -- the
 natural numbers (non-negative integers) and polynomials over the finite field
 with 2 elements.  Each of these have the property that they contain $2^n$
 elements $x$ with grading function $f$ taken from above such that
