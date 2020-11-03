@@ -91,32 +91,39 @@ def place_grade(grade, required, primes):
     base = placements
 
     # compute required from primes
-    def _count(pp, menu, gmin, gmax):
+    def _generated(pp, menu, gmin, gmax):
         if len(menu) == 0:
             return
         p = menu[0]
+        if pp.grade + p.grade >= gmax:
+            return
         for _ in range(gmax // p.grade):
-            yield from _count(pp, menu[1:], gmin, gmax)
+            yield from _generated(pp, menu[1:], gmin, gmax)
             pp *= p
             if gmin <= pp.grade < gmax:
                 yield pp
 
     requirements = collections.defaultdict(lambda: [])
-    for elt in _count(Element.one(), primes, placements, 2 * placements):
-        print(elt, elt.grade)
+    for elt in _generated(Element.one(), primes, placements, 2 * placements):
+        # print(elt, elt.grade)
         requirements[elt.grade].append(elt)
 
-    if grade == 3:
+    # summarize the number of generated elements of each grading in current range
+    prodcounts = [
+        len(requirements[grade]) for grade in range(placements, 2 * placements)
+    ]
+    print(
+        f"Range {placements}-{2*placements} has {sum(prodcounts)} generated elements from [{' '.join(str(p) for p in primes)}]"
+    )
+    if sum(prodcounts) > placements:
+        print("*** OVERLOAD ***")
+        return
+
+    if grade == 5:
         return
 
     # iterate through all the integer tuples of length `placement` with a sum
     # of exactly `placement`
-
-    prodcounts = [
-        len(requirements[grade]) for grade in range(placements, 2 * placements)
-    ]
-    if sum(prodcounts) > placements:
-        return
 
     def _enum(index, counts, remaining):
         nonlocal prodcounts
@@ -136,12 +143,15 @@ def place_grade(grade, required, primes):
 
     for xx in _enum(0, counts, placements - sum(prodcounts)):
         print(xx)
+        if xx == [2, 0] or xx == [1, 1]:
+            print("*** SNIP ***")
+            continue
         _p = primes.copy()
         for offset, count in enumerate(xx):
             for i in range(count):
                 _p.append(pp(base + offset, chr(97 + i)))
-        if grade < 3:
-            place_grade(grade + 1, None, _p)
+
+        place_grade(grade + 1, None, _p)
 
 
 if __name__ == "__main__":
