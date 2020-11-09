@@ -8,7 +8,7 @@ import conducto as co
 def pr(branch) -> co.Parallel:
     # Make a Docker image, based on python:alpine, with the whole repo and the contents
     # of the given branch.
-    image = co.Image("python:alpine", copy_repo=True, copy_branch=branch)
+    image = co.Image("python:3.8-alpine", copy_repo=True, copy_branch=branch)
 
     # Using that Docker image, run three commands in parallel to interact with the
     # repo's files.
