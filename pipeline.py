@@ -14,8 +14,11 @@ def pr(branch) -> co.Parallel:
     # repo's files.
     with co.Parallel(image=image) as root:
         co.Exec(f"echo {branch}", name="print branch")
-        co.Exec("pwd", name="print working directory")
         co.Exec("ls -la", name="list files")
+        with co.Serial(image=image, container_reuse_context=co.ContainerReuseContext.NEW) as checks:
+            co.Exec("pip install black flake8", name="install")
+            co.Exec("black *.py --check", name="formatting")
+            co.Exec("flake8 *.py", name="linting")
 
     co.git.apply_status_all(root)
 
