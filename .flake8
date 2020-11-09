@@ -1,6 +1,6 @@
 [flake8]
 ignore= \
-    E999,
+    E101, # tab/space indent complaints 
     E117, # over-indented
     E122, # continuation line missing indentation or outdented
     E123, # closing bracket does not match indentation of opening brackets line
@@ -8,11 +8,12 @@ ignore= \
     E127, # over-indented
     E128, # under indentity
     E131, # continuation line unaligned for hanging indent
-    E302, # expected 2 blank lines
-    E305, # expected 2 blank lines after class
+    E203, # whitespace before ':' 
     E226, # whitespace around arith
     E261, # at least 2 spaces before inline comment
     E265, # block comment should start with # 
+    E302, # expected 2 blank lines
+    E305, # expected 2 blank lines after class
     E306, # expected 1 blank line before a nested definition, found 0
     E501, # line too long
     E502, # redundant backslash
@@ -20,10 +21,10 @@ ignore= \
     E712, # comparison to True should be if cond is True:
     E722, # do not use bare except
     E731, # do not assign a lambda expression, use a def
-    E101, W191, # tab/space indent complaints
+    W191, # tab/space indent complaints
     W291, # trailing whitespace
     W293, # blank line contains whitespace
-	W503, # line break before binary operator
+    W503, # line break before binary operator
     F403, # star import complaint
     E999
 
