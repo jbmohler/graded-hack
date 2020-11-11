@@ -155,5 +155,5 @@ def place_grade(grade, required, primes):
 
 
 if __name__ == "__main__":
-    for x in range(1, 2):
+    for x in range(1, 3):
         place_grade(x, {}, [])
