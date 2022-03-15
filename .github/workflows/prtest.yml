@@ -1,0 +1,9 @@
+name: pr_test
+on: pull_request
+
+jobs:
+    codecheck:
+        runs-on: self-hosted
+        steps:
+            - run: echo 'run black --check'
+            - run: echo 'run flake8'
