@@ -4,5 +4,5 @@ on: pull_request
 jobs:
     codecheck:
         steps:
-            -run: echo 'run black --check'
-            -run: echo 'run flake8'
+            - run: echo 'run black --check'
+            - run: echo 'run flake8'
