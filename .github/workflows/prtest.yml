@@ -3,6 +3,7 @@ on: pull_request
 
 jobs:
     codecheck:
+        runs-on: ubuntu-latest
         steps:
             - run: echo 'run black --check'
             - run: echo 'run flake8'
